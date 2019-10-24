@@ -30,19 +30,26 @@ class App extends Component {
     this.state = {
       list,
     };
-
+    // If you want to access this.state in your class method, it cannot be retrieved because this is undefined. To make this accessible in your class methods, you have to bind the class methods to this.
     this.onDismiss = this.onDismiss.bind(this);
   }
 
+  // The constructor is only there to instantiate your class with all its properties, so the business logic of class methods should be defined outside the constructor
   onDismiss(id) {
     const updatedList = this.state.list.filter(item => item.objectID !== id);
     this.setState({ list: updatedList });
   }
 
+  // Class methods can be auto-bound using JavaScript ES6 arrow functions:
+  onClickMe = () => {
+    console.log(this);
+  }
+  // The official React documentation sticks to the class method bindings in the constructor
+
   // The render() method has to be overridden, because it defines the output of a React Component, so it must be defined.
   render() {
     return (
-        //  Every time you change your component state, the render() method of your component will run again.
+      //  Every time you change your component state, the render() method of your component will run again.
       <div className="App">
         {this.state.list.map(item =>
           <div key={item.objectID}>
@@ -60,6 +67,12 @@ class App extends Component {
                 type="button"
               >
                 Dismiss
+              </button>
+              <button
+                onClick={this.onClickMe}
+                type="button"
+              >
+                Console Log
               </button>
             </span>
           </div>
